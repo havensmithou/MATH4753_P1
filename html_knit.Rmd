@@ -1,0 +1,17 @@
+---
+title: "Project 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(HavenPackage2)
+
+ddt <- read.csv("DDT-1.csv")
+myddt(df=ddt, SPECIES="CCATFISH")
+myddt(df=ddt, SPECIES="SMBUFFALO")
+```
+

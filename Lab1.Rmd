@@ -1,0 +1,87 @@
+---
+title: "Lab 1"
+author: "Haven Smith"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tasks
+
+## Task 1
+```{r}
+getwd()
+```
+
+## Task 2
+```{r}
+ddt <- read.csv("DDT-1.csv")
+head(ddt)
+```
+
+## Task 3
+The qualitative variables of DDT are river and species.  
+The quantitative variables of DDT are mile, length, weight, and DDT.  
+There are 3 different species in the data set.
+```{r}
+with(ddt, ddt[WEIGHT>800 & SPECIES=="LMBASS",])
+with(ddt, ddt[RIVER == "SCM" & DDT > 4,])
+```
+
+## Clicker Questions
+Q1 The mean length of fish in DDT is `r mean(ddt$LENGTH)`  
+Q2 The standard deviation of the weight of fish in DDT is `r sd(ddt$WEIGHT)`  
+Q3 Yes  
+Q4 1
+
+## Task 4
+```{r}
+tab1 = with(ddt,table(RIVER))
+tab1
+barplot(tab1, col=2:5)
+
+tab2 = with(ddt,table(RIVER, SPECIES))
+tab2
+barplot(tab2, col=2:5, beside=TRUE)
+
+```
+
+## Task 5
+```{r}
+pie(with(ddt, table(SPECIES)), col=2:4)
+pie(with(ddt, table(RIVER)), col=2:5)
+```
+
+## Task 6
+```{r, fig.keep='last'}
+layout(matrix(c(1,2,3),nr=1,nc=3))# 1 row 3 cols
+layout.show(3)
+with(ddt,boxplot(DDT,ylab="DDT",col="Red",notch=TRUE))
+with(ddt,boxplot(WEIGHT,ylab="WEIGHT",col="Green",notch=TRUE))
+with(ddt,boxplot(LENGTH,ylab="LENGTH",col="Blue",notch=TRUE))
+```
+```{r, fig.show='hide'}
+
+```
+
+## Task 7
+```{r}
+coplot(LENGTH~WEIGHT|RIVER,data=ddt)
+coplot(DDT~WEIGHT|SPECIES,data=ddt)
+```
+
+## Task 8
+```{r}
+library(dplyr)
+library(ggplot2)
+ddt %>% ggplot(aes(x=SPECIES,y=WEIGHT,fill=RIVER)) + geom_boxplot() + ggtitle("Haven Smith")
+ddt %>% ggplot(aes(x=RIVER,y=LENGTH,fill=SPECIES)) + geom_violin() + ggtitle("Haven Smith")
+ddt %>% ggplot(aes(x=WEIGHT,y=LENGTH,fill=SPECIES, color=SPECIES)) + geom_point() + ggtitle("Haven Smith")
+
+```
